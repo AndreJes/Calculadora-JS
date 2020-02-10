@@ -5,9 +5,121 @@
         <title>Calculadora</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+        <link rel="stylesheet" href="../resources/css/mainstyle.css">
     </head>
     <body>
-        
+        <div id="calculator" class="main-border">
+            <div id="display" class="flex-container">
+                <div id="subDisplay" class="display">
+                    <div id="numberTwoDisplay" class="display-item">
+                        00000000
+                    </div>
+
+                    <div id="operSymbolDisplay" class="display-item" style="-moz-user-select: none;">
+                        +
+                    </div>
+                </div>
+
+                <div class="display">
+                    <div id="numberOneDisplay" class="display-item">
+                        000000000
+                    </div>
+                </div>
+            </div>
+
+            <div id="pad" class="flex-container">
+                <!--Operações complexas-->
+                <div id="btn-percent" class="btn oper-btn">
+                    &percnt;
+                </div>
+                <div id="btn-sqrt" class="btn oper-btn">
+                    &Sqrt;
+                </div>
+                <div id="btn-square" class="btn oper-btn">
+                    &chi;&sup2;
+                </div>
+                <div id="btn-fraction" class="btn oper-btn">
+                    &sup1;/&chi;
+                </div>
+                <!---->
+
+                <!--Botões de apagar / divisão-->
+                <div id="btn-clearall" class="btn oper-btn">
+                    CE
+                </div>
+                <div id="btn-clear" class="btn oper-btn">
+                    C
+                </div>
+                <div id="btn-erase" class="btn oper-btn">
+                    &larr;
+                </div>
+                <div id="btn-division" class="btn oper-btn">
+                    &div;
+                </div>
+                <!---->
+
+                <!--Botões de 7, 8, 9 / multiplicação-->
+                <div id="btn-7" class="btn num-btn">
+                    7
+                </div>
+                <div id="btn-8" class="btn num-btn">
+                    8
+                </div>
+                <div id="btn-9" class="btn num-btn">
+                    9
+                </div>
+                <div id="btn-times" class="btn oper-btn">
+                    &times;
+                </div>
+                <!---->
+
+                <!--Botões de apagar / subtração-->
+                <div id="btn-4" class="btn num-btn">
+                    4
+                </div>
+                <div id="btn-5" class="btn num-btn">
+                    5
+                </div>
+                <div id="btn-6" class="btn num-btn">
+                    6
+                </div>
+                <div id="btn-minus" class="btn oper-btn">
+                    &minus;
+                </div>
+                <!---->
+
+                <!--Botões de apagar / adição-->
+                <div id="btn-1" class="btn num-btn">
+                    1
+                </div>
+                <div id="btn-2" class="btn num-btn">
+                    2
+                </div>
+                <div id="btn-3" class="btn num-btn">
+                    3
+                </div>
+                <div id="btn-plus" class="btn oper-btn">
+                    &plus;
+                </div>
+                <!---->
+
+                <!--Botões de positivo/negativo, 0, virgula, igual-->
+                <div id="btn-posneg" class="btn oper-btn">
+                    &plusmn;
+                </div>
+                <div id="btn-0" class="btn num-btn">
+                    0
+                </div>
+                <div id="btn-dot" class="btn oper-btn">
+                    ,
+                </div>
+                <div id="btn-equal" class="btn oper-btn">
+                    =
+                </div>
+                <!---->
+
+            </div>
+        </div>
     </body>
 </html>
