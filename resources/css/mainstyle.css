@@ -52,6 +52,7 @@ body{
 .display-item {
     padding-right: 10px;
     text-align: end;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 .main-border {
@@ -81,6 +82,7 @@ body{
 .btn:hover{
     background-color: rgb(61, 61, 61);
     color: white;
+    box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
 }
 
 .num-btn {
