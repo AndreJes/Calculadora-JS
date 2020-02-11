@@ -5,6 +5,8 @@ class Calculator {
         //The second input number / The main displayed Number
         this._mainInputDisplay = document.querySelector("#mainInputDisplay");
 
+        this._lastNumber;
+
         //The current operator symbol html display
         this._operator = document.querySelector("#operSymbolDisplay");
 
@@ -39,6 +41,7 @@ class Calculator {
         this.mainInput = "0";
         this.operator = "";
         this.initBtnEvents();
+        this.initKeyBoardEvents();
     }
 
     initBtnEvents(){
@@ -49,6 +52,76 @@ class Calculator {
                 let btnText = btn.id.replace("btn-", "");
                 this.executeBtn(btnText);
             });
+        });
+    }
+
+    initKeyBoardEvents(){
+        document.addEventListener('keyup', k =>{
+            switch(k.key){
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                case '0':
+                    this.addNumber(k.key);
+                    break;
+    
+                case '.':
+                case ',':
+                    this.addDot();
+                    break;
+                case 'n':
+                case 'N':
+                    this.togglePosNegNumber();
+                    break;
+    
+                case '+':
+                    this.addOperator('+');
+                    break;
+                case '-':
+                    this.addOperator('-');
+                    break;
+                case '*':
+                    this.addOperator('*');
+                    break;
+                case '/':
+                    this.addOperator('/');
+                    break;
+                case 'r':
+                case 'R':
+                    this.calcSquareRoot();
+                    break;
+                case '^':
+                    this.calcSquareNumber();
+                    break;
+                case 'f':
+                case 'F':
+                    this.calcFraction();
+                    break; 
+                case '%':
+                    this.addPercentage();
+                    break;
+    
+                case 'Enter':
+                case '=':
+                    this.calculate();
+                    break;
+                case 'Escape':
+                    this.clearAll();
+                    break;
+                case 'C':
+                case 'c':
+                    this.clear();
+                    break;
+                case 'Backspace':
+                    this.erase();
+                    break;
+            }
         });
     }
 
@@ -156,14 +229,7 @@ class Calculator {
         }
     }
 
-    /**
-     * Defines the current operator for the operation
-     * @param {string} operator the operator symbol which is going to be used
-     */
-    addOperator(operator){
-        if(!this.operator){
-            this.numberOne = parseFloat(this.mainInput);
-        }
+    setOperator(operator){
         switch(operator){
             case '+':
                 this.operator = "+";
@@ -182,6 +248,23 @@ class Calculator {
                 break;
         }
         this.clear();
+    }
+
+    /**
+     * Defines the current operator for the operation
+     * @param {string} operator the operator symbol which is going to be used
+     */
+    addOperator(operator){
+        if(!this.operator){
+            this.numberOne = parseFloat(this.mainInput);
+            this.setOperator(operator);
+        }
+        else if(this.operator === operator){
+            this.calculate();
+        }
+        else{
+            this.setOperator(operator);    
+        }
     }
 
     addDot(){
@@ -233,18 +316,36 @@ class Calculator {
         this.operator = '/';
     }
 
+    getResult(n1, n2){
+        return eval(`${n1}${this.operator}${n2}`);
+    }
+
     calculate(){
         try{
 
+            let result;
             if(!this.numberOne || !this.operator){
                 throw e;
             }
+            else if(this._lastNumber){
+                let n1 = parseFloat(this.mainInput);
+                let n2 = parseFloat(this._lastNumber);
 
-            let n1 = parseFloat(this.numberOne);
-            let n2 = parseFloat(this.mainInput);
+                this.mainInput = n2;
+                this.numberOne = n1;
 
-            let result = eval(`${n1}${this.operator}${n2}`);
+                result = this.getResult(n1,n2);
+            }
+            else{
+                let n1 = parseFloat(this.numberOne);
+                let n2 = parseFloat(this.mainInput);
 
+                result = this.getResult(n1, n2);
+
+                this._lastNumber = n2;
+                this.numberOne = this._lastNumber;
+            }
+            
             this.mainInput = result;
             
             this.resizeDisplay();
@@ -274,6 +375,7 @@ class Calculator {
 
     clear(){
         this.mainInput = "0";
+        this._lastNumber = "";
         this.resizeDisplay();
     }
 
