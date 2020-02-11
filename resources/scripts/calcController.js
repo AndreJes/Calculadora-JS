@@ -8,21 +8,10 @@ class Calculator {
         //The current operator symbol html display
         this._operator = document.querySelector("#operSymbolDisplay");
 
-        //Variables where the user input numbers are stored
-        this._n1 = "";
-        this._n2 = "";
-        
-        //Current number which is being input
-        this._currentInput = 1;
-
-        this._lastNumber = "";
-        this._lastOperator = "";
-
         this.initialize();
     }
 
     set numberOne(value){
-        this._n1 = parseFloat(value);
         this._numberOneDisplay.innerHTML = value;
     }
 
@@ -133,7 +122,7 @@ class Calculator {
 
     printError(){
         this.mainInput = "Error";
-        setInterval(() =>{
+        setTimeout(() =>{
             this.clear();
         }, 1000);
     }
@@ -146,18 +135,22 @@ class Calculator {
         this.mainInput = this.mainInput + char;
     }
 
+    getNumericInput(){
+        return this.mainInput.replace('-', '');
+    }
+
     /**
      * Adds an number to the main display
      * @param {string} number the current number that's gonna be added
      */
     addNumber(number){
-        if(this.mainInput.length <= 12)
+        if(this.getNumericInput.length <= 12)
         {
-            if(this.mainInput == "0" && number != "0"){
+            if(this.getNumericInput() == "0" && number != "0"){
                 this.mainInput = "";
                 this.addCharToInput(number);
             }
-            else{
+            else if(this.getNumericInput() != "0"){
                 this.addCharToInput(number);
             }
         }
@@ -206,7 +199,7 @@ class Calculator {
             this.mainInput = "-" + this.mainInput;
         }
         else{
-            this.mainInput = this.mainInput.replace('-', '');
+            this.mainInput = this.getNumericInput();
         }
     }
 
@@ -223,16 +216,26 @@ class Calculator {
     }
 
     calculate(){
-        console.log('=');
+        try{
+
+            if(!this.numberOne || !this.operator){
+                throw e;
+            }
+
+            let result = eval(`${parseFloat(this.numberOne)} ${this.operator} ${parseFloat(this.mainInput)}`);
+
+            this.mainInput = result;
+
+        }
+        catch(e){
+            this.printError();
+            return;
+        }
     }
 
     clearAll(){
-        this._n1 = "";
-        this._n2 = "";
         this.numberOne = "";
         this.operator = "";
-        this._lastNumber = "";
-        this._lastOperator = "";
         this.clear();
     }
 
