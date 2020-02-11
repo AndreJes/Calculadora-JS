@@ -123,8 +123,9 @@ class Calculator {
     printError(){
         this.mainInput = "Error";
         setTimeout(() =>{
-            this.clear();
+            this.clearAll();
         }, 1000);
+        this.resizeDisplay();
     }
 
     /**
@@ -144,8 +145,7 @@ class Calculator {
      * @param {string} number the current number that's gonna be added
      */
     addNumber(number){
-        if(this.getNumericInput.length <= 12)
-        {
+        if(this.mainInput.length < 13){
             if(this.getNumericInput() == "0" && number != "0"){
                 this.mainInput = "";
                 this.addCharToInput(number);
@@ -162,7 +162,7 @@ class Calculator {
      */
     addOperator(operator){
         if(!this.operator){
-            this.numberOne = this.mainInput;
+            this.numberOne = parseFloat(this.mainInput);
         }
         switch(operator){
             case '+':
@@ -185,13 +185,26 @@ class Calculator {
     }
 
     addDot(){
-        if(this.mainInput.indexOf(',') == -1) {
-            this.addCharToInput(',');
+        if(this.mainInput.indexOf('.') == -1) {
+            this.addCharToInput('.');
         }
     }
 
     addPercentage(){
-        console.log('%');
+        try{
+            let n1 = parseFloat(this.numberOne);
+            if(isNaN(n1)){
+                throw e;
+            }
+            else{
+                let pcnt = eval(`${parseFloat(this.numberOne)} * (${parseFloat(this.mainInput)} / 100)`);
+                this.mainInput = pcnt;
+            }
+
+        }
+        catch{
+            this.printError();
+        }
     }
 
     togglePosNegNumber(){
@@ -204,15 +217,20 @@ class Calculator {
     }
 
     calcSquareRoot(){
-        console.log("square root");
+        let n = parseFloat(this.mainInput);
+        this.mainInput = Math.sqrt(n);
+        this.resizeDisplay();
     }
 
     calcSquareNumber(){
-        console.log('²');
+        let n = parseFloat(this.mainInput);
+        this.mainInput = eval(`${n} * ${n}`);
+        this.resizeDisplay();
     }
 
     calcFraction(){
-        console.log("1/x");
+        this.numberOne = 1;
+        this.operator = '/';
     }
 
     calculate(){
@@ -222,9 +240,14 @@ class Calculator {
                 throw e;
             }
 
-            let result = eval(`${parseFloat(this.numberOne)} ${this.operator} ${parseFloat(this.mainInput)}`);
+            let n1 = parseFloat(this.numberOne);
+            let n2 = parseFloat(this.mainInput);
+
+            let result = eval(`${n1}${this.operator}${n2}`);
 
             this.mainInput = result;
+            
+            this.resizeDisplay();
 
         }
         catch(e){
@@ -233,18 +256,32 @@ class Calculator {
         }
     }
 
+    resizeDisplay(){
+        if(this.mainInput.length > 13){
+            this._mainInputDisplay.style.fontSize = "30px";
+        }
+        else{
+            this._mainInputDisplay.style.fontSize = "40px";
+        }
+    }
+
     clearAll(){
         this.numberOne = "";
         this.operator = "";
         this.clear();
+        this.resizeDisplay();
     }
 
     clear(){
         this.mainInput = "0";
+        this.resizeDisplay();
     }
 
     erase(){
         if(this.mainInput.length > 1){
+            if(this.mainInput.length < 14){
+                this.resizeDisplay();
+            }
             this.mainInput = this.mainInput.slice(0, -1);
         }
         else{
